@@ -22,7 +22,7 @@ public class ActorRepository implements IRepository{
     public List<Actor> findAll() throws SQLException{
         List<Actor> actors = new ArrayList<>();
         try (Statement myStat = getConnection().createStatement();
-            ResultSet myRes= myStat.executeQuery("Select * from sakila.actor")) {
+            ResultSet myRes= myStat.executeQuery("SELECT * FROM actor");) {
             while (myRes.next()) {
                 Actor newActor = new Actor();
                 newActor.setActor_id(myRes.getInt("actor_id"));
@@ -36,7 +36,7 @@ public class ActorRepository implements IRepository{
 
     @Override
     public Actor save(Actor actor) throws SQLException {
-        String sql = "INSERT INTO sakila.actor(actor_id,first_name,last_name) VALUES (?,?,?)";
+        String sql = "INSERT INTO actor(actor_id, first_name, last_name) VALUES (?,?,?)";
         try (PreparedStatement myPrepare = getConnection().prepareStatement(sql);) {
             myPrepare.setInt(1, actor.getActor_id());
             myPrepare.setString(2, actor.getFirst_name());
@@ -48,7 +48,7 @@ public class ActorRepository implements IRepository{
     
         @Override
     public Actor update(Actor actor) throws SQLException {
-        String sql = "UPDATE sakila.actor SET first_name = ?, last_name = ? WHERE actor_id = ?";
+        String sql = "UPDATE actor SET first_name = ?, last_name = ? WHERE actor_id = ?";
         try (PreparedStatement myPrepare = getConnection().prepareStatement(sql)) {
             myPrepare.setString(1, actor.getFirst_name());
             myPrepare.setString(2, actor.getLast_name());
@@ -56,9 +56,9 @@ public class ActorRepository implements IRepository{
 
             int rowsAffected = myPrepare.executeUpdate();
             if (rowsAffected == 0) {
-                System.out.println("⚠ No se encontró ningún actor con el ID: " + actor.getActor_id());
+                System.out.println("No se encontró el actor con el ID: " + actor.getActor_id());
             } else {
-                System.out.println("✅ Actor actualizado correctamente: " + actor);
+                System.out.println("el actor se actualizo correctamente: " + actor);
             }
         }
         return actor;
@@ -66,19 +66,17 @@ public class ActorRepository implements IRepository{
 
         @Override
         public boolean delete(int actorId) throws SQLException {
-            String sql = "DELETE FROM sakila.actor WHERE actor_id = ?";
+            String sql = "DELETE FROM actor WHERE actor_id = ?";
             try (PreparedStatement myPrepare = getConnection().prepareStatement(sql)) {
                 myPrepare.setInt(1, actorId);
                 int rowsAffected = myPrepare.executeUpdate();
                 if (rowsAffected == 0) {
-                    System.out.println("⚠ No se encontró ningún actor con el ID: " + actorId);
+                    System.out.println("No se encontró el actor con el ID: " + actorId);
                     return false;
                 } else {
-                    System.out.println("✅ Actor eliminado correctamente (ID " + actorId + ")");
+                    System.out.println("el actor se elimino correctamente (ID " + actorId + ")");
                     return true;
                 }
             }
         }
-
-    
 }

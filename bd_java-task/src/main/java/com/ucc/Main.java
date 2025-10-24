@@ -13,26 +13,22 @@ public class Main {
         try (Connection myConn = DatabaseConnection.getInstanceConnection()) {
             IRepository actorRepository = new ActorRepository();
 
-            // 🔹 Insertar
             Actor actor = new Actor();
             actor.setActor_id(9999);
-            actor.setFirst_name("PepitoCode2");
-            actor.setLast_name("pepitoCode2");
+            actor.setFirst_name("PepitoCode");
+            actor.setLast_name("pepitoCode");
             actorRepository.save(actor);
 
-            // 🔹 Actualizar
-            actor.setFirst_name("PepitoActualizado");
-            actor.setLast_name("CodeActualizado");
+            actor.setFirst_name("PepitoNuevo");
+            actor.setLast_name("CodeNuevo");
             actorRepository.update(actor);
 
-            // 🔹 Eliminar
             actorRepository.delete(9999);
 
-            // 🔹 Mostrar todos
             actorRepository.findAll().forEach(System.out::println);
 
         } catch (Exception e) {
-            System.out.println("❌ Error: " + e.getMessage());
+            System.out.println("Error: " + e.getMessage());
         }
     }
 }
